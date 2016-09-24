@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component>
+    <fileSets>
+        <!-- Cherry-pick files from the expanded Karaf distribution -->
+        <fileSet>
+            <directory>${project.build.directory}/assembly</directory>
+            <outputDirectory>${file.separator}</outputDirectory>
+            <excludes>
+                <exclude>bin/**</exclude>
+                <exclude>setenv-*</exclude>
+                <exclude>*-unix-bin.xml</exclude>
+            </excludes>
+            <fileMode>0644</fileMode>
+            <directoryMode>0775</directoryMode>
+        </fileSet>
+
+        <!-- Copy over bin/* scripts separately to get the correct file mode -->
+        <fileSet>
+            <directory>${project.build.directory}/assembly</directory>
+            <outputDirectory>${file.separator}</outputDirectory>
+            <includes>
+                <include>bin/*</include>
+            </includes>
+            <lineEnding>unix</lineEnding>
+            <fileMode>0755</fileMode>
+        </fileSet>
+        <fileSet>
+            <directory>${project.build.directory}/assembly</directory>
+            <outputDirectory>${file.separator}</outputDirectory>
+            <includes>
+                <include>bin/*</include>
+            </includes>
+            <lineEnding>dos</lineEnding>
+            <fileMode>0755</fileMode>
+        </fileSet>
+    </fileSets>
+
+</component>

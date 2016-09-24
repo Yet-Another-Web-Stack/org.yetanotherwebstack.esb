@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<assembly>
+    <id>src</id>
+    <formats>
+        <format>zip</format>
+    </formats>
+    <fileSets>
+        <!-- Copy license and other files from root -->
+        <fileSet>
+            <directory>${basedir}/../..</directory>
+            <outputDirectory>/</outputDirectory>
+            <includes>
+                <include>BUILDING</include>
+                <include>README</include>
+                <include>LICENSE</include>
+                <include>NOTICE</include>
+            </includes>
+            <lineEnding>unix</lineEnding>
+        </fileSet>
+
+        <!-- Binary Files -->
+        <fileSet>
+            <directory>${basedir}/../..</directory>
+            <outputDirectory>src</outputDirectory>
+            <includes>
+                <include>**/*.jpeg</include>
+                <include>**/*.jpg</include>
+                <include>**/*.gif</include>
+                <include>**/*.png</include>
+                <include>**/*.exe</include>
+                <include>**/*.dll</include>
+                <include>**/*.jar</include>
+                <include>**/*.so</include>
+                <include>**/*.ks</include>
+                <include>**/*.ts</include>
+                <include>**/*.keystore</include>
+                <include>**/*.bin</include>
+                <include>**/*.jnilib</include>
+                <include>**/*.cert</include>
+                <include>**/*.jks</include>
+            </includes>
+            <excludes>
+                <exclude>**/eclipse-classes/**</exclude>
+                <exclude>**/target/**</exclude>
+            </excludes>
+        </fileSet>
+
+        <!-- Text Files -->
+        <fileSet>
+            <directory>${basedir}/../..</directory>
+            <outputDirectory>src</outputDirectory>
+            <includes>
+                <include>**/*</include>
+            </includes>
+            <excludes>
+                <exclude>**/*.jpeg</exclude>
+                <exclude>**/*.jpg</exclude>
+                <exclude>**/*.gif</exclude>
+                <exclude>**/*.png</exclude>
+                <exclude>**/*.exe</exclude>
+                <exclude>**/*.dll</exclude>
+                <exclude>**/*.jar</exclude>
+                <exclude>**/*.so</exclude>
+                <exclude>**/*.ks</exclude>
+                <exclude>**/*.ts</exclude>
+                <exclude>**/*.keystore</exclude>
+                <exclude>**/*.bin</exclude>
+                <exclude>**/*.jnilib</exclude>
+                <exclude>**/*.cert</exclude>
+                <exclude>**/target/**</exclude>
+                <exclude>**/build/**</exclude>
+                <exclude>activemq-data/**</exclude>
+                <exclude>*/activemq-data/**</exclude>
+                <exclude>**/eclipse-classes/**</exclude>
+                <exclude>**/.*</exclude>
+                <exclude>**/.*/**</exclude>
+
+                <exclude>**/surefire*</exclude>
+                <exclude>**/svn-commit*</exclude>
+
+                <exclude>**/*.iml</exclude>
+                <exclude>**/*.ipr</exclude>
+                <exclude>**/*.iws</exclude>
+                <exclude>**/*.jks</exclude>
+
+                <exclude>**/cobertura.ser</exclude>
+
+            </excludes>
+            <lineEnding>unix</lineEnding>
+        </fileSet>
+    </fileSets>
+</assembly>

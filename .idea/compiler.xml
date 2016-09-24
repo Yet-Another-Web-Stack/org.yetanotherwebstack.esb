@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <resourceExtensions />
+    <wildcardResourcePatterns>
+      <entry name="!?*.java" />
+      <entry name="!?*.form" />
+      <entry name="!?*.class" />
+      <entry name="!?*.groovy" />
+      <entry name="!?*.scala" />
+      <entry name="!?*.flex" />
+      <entry name="!?*.kt" />
+      <entry name="!?*.clj" />
+      <entry name="!?*.aj" />
+    </wildcardResourcePatterns>
+    <annotationProcessing>
+      <profile default="true" name="Default" enabled="false">
+        <processorPath useClasspath="true" />
+      </profile>
+      <profile default="false" name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <processorPath useClasspath="true" />
+        <module name="activemq-camel" />
+        <module name="activemq-service" />
+        <module name="branding" />
+        <module name="yaws-esb-features" />
+        <module name="yaws-ignite-features" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="activemq" target="1.7" />
+      <module name="activemq-camel" target="1.7" />
+      <module name="activemq-service" target="1.7" />
+      <module name="assemblies" target="1.7" />
+      <module name="branding" target="1.7" />
+      <module name="features" target="1.7" />
+      <module name="org.yetanotherwebstack.esb" target="1.7" />
+      <module name="parent" target="1.7" />
+      <module name="yaws-esb" target="1.7" />
+      <module name="yaws-esb-features" target="1.7" />
+      <module name="yaws-ignite-features" target="1.7" />
+    </bytecodeTargetLevel>
+  </component>
+</project>

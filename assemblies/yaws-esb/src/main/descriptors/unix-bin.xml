@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<assembly>
+    <id>yaws-esb</id>
+
+    <formats>
+        <format>zip</format>
+    </formats>
+
+    <componentDescriptors>
+        <componentDescriptor>${project.build.outputDirectory}/common-unix-bin.xml</componentDescriptor>
+    </componentDescriptors>
+
+</assembly>

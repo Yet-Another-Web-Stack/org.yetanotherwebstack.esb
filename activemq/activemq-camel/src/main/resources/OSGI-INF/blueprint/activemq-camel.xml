@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<blueprint xmlns="http://www.osgi.org/xmlns/blueprint/v1.0.0">
+
+    <reference id="pooledConnectionFactory" interface="javax.jms.ConnectionFactory"  filter="(&amp;(transacted=false)(name=default-cf))"/>
+
+    <!-- Register the org.apache.camel.spi.ComponentResolver for the activemq component -->
+
+    <bean id="activeMQComponentResolver" class="org.yetanotherwebstack.esb.activemq.camel.ActiveMQComponentResolver">
+        <property name="connectionFactory" ref="pooledConnectionFactory"/>
+    </bean>
+
+    <service ref="activeMQComponentResolver" interface="org.apache.camel.spi.ComponentResolver" ranking="10">
+        <service-properties>
+            <entry key="component" value="activemq"/>
+        </service-properties>
+    </service>
+</blueprint>

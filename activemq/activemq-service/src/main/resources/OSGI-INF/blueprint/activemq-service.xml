@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<blueprint xmlns="http://www.osgi.org/xmlns/blueprint/v1.0.0"
+           xmlns:cm="http://aries.apache.org/blueprint/xmlns/blueprint-cm/v1.1.0"
+           xmlns:ext="http://aries.apache.org/blueprint/xmlns/blueprint-ext/v1.0.0">
+
+    <ext:property-placeholder placeholder-prefix="$[" placeholder-suffix="]" />
+
+    <cm:property-placeholder persistent-id="org.yetanotherwebstack.esb.activemq.service" update-strategy="reload"/>
+
+    <bean id="activemqConnectionFactory" class="org.apache.activemq.ActiveMQConnectionFactory">
+        <property name="brokerURL" value="vm://${broker-name}?create=false&amp;waitForStart=10000"/>
+        <property name="userName" value="$[activemq.jmx.user]" />
+        <property name="password" value="$[activemq.jmx.password]" />
+    </bean>
+
+    <bean id="pooledConnectionFactory" class="org.apache.activemq.pool.PooledConnectionFactory">
+        <property name="maxConnections" value="8"/>
+        <property name="connectionFactory" ref="activemqConnectionFactory"/>
+    </bean>
+
+    <!-- XA -->
+
+    <bean id="jmsXaConnectionFactory" class="org.apache.activemq.ActiveMQXAConnectionFactory">
+        <property name="brokerURL" value="vm://${broker-name}?create=false&amp;waitForStart=10000"/>
+        <property name="userName" value="$[activemq.jmx.user]" />
+        <property name="password" value="$[activemq.jmx.password]" />
+        <property name="redeliveryPolicy">
+            <bean class="org.apache.activemq.RedeliveryPolicy">
+                <property name="maximumRedeliveries" value="${maximumRedeliveries}"/>
+                <property name="maximumRedeliveryDelay" value="${maximumRedeliveryDelay}"/>
+                <property name="initialRedeliveryDelay" value="${initialRedeliveryDelay}"/>
+                <property name="useCollisionAvoidance" value="${useCollisionAvoidance}"/>
+                <property name="useExponentialBackOff" value="${useExponentialBackOff}"/>
+                <property name="backOffMultiplier" value="${backOffMultiplier}"/>
+            </bean>
+        </property>
+    </bean>
+
+    <!-- connection factory wrapper to support auto-enlisting of XA resource -->
+    <bean id="jmsXaPooledConnectionFactory" class="org.apache.activemq.pool.JcaPooledConnectionFactory">
+        <property name="maxConnections" value="8" />
+        <property name="connectionFactory" ref="jmsXaConnectionFactory" />
+        <property name="transactionManager" ref="osgiJtaTransactionManager" />
+        <property name="name" value="activemq.${broker-name}" />
+    </bean>
+
+    <!-- ActiveMQ XA Resource Manager -->
+    <bean id="resourceManager" class="org.apache.activemq.pool.ActiveMQResourceManager" init-method="recoverResource">
+        <property name="transactionManager" ref="osgiJtaTransactionManager" />
+        <property name="connectionFactory" ref="jmsXaPooledConnectionFactory" />
+        <property name="resourceName" value="activemq.${broker-name}" />
+    </bean>
+
+    <reference id="osgiJtaTransactionManager" interface="javax.transaction.TransactionManager" availability="mandatory" />
+
+    <!-- Register the javax.jms.ConnectionFactory in the OSGi Service Registry -->
+    <service ref="pooledConnectionFactory" interface="javax.jms.ConnectionFactory">
+        <service-properties>
+            <entry key="name" value="default-cf"/>
+            <entry key="transacted" value="false" />
+            <entry key="osgi.jndi.service.name" value="jms/default-cf" />
+        </service-properties>
+    </service>
+
+    <!-- Register the javax.jms.ConnectionFactory for the XA PooledConnectionFactory in the OSGi Service Registry -->
+    <service ref="jmsXaPooledConnectionFactory" interface="javax.jms.ConnectionFactory">
+        <service-properties>
+            <entry key="name" value="default-cf-xa" />
+            <entry key="transacted" value="true" />
+            <entry key="osgi.jndi.service.name" value="jms/default-cf-xa" />
+        </service-properties>
+    </service>
+</blueprint>
